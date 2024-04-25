@@ -1,0 +1,20 @@
+FROM python:3.9-slim
+
+# set work directory
+WORKDIR /usr/src/
+
+# Copy the necessary files from your local machine to the container
+COPY . /usr/src/
+COPY .env /usr/src/
+COPY main.py /usr/src/
+COPY requirements.txt /usr/src/
+
+# Install Python dependencies from requirements.txt
+RUN pip install -r requirements.txt --no-cache-dir
+
+
+# Expose port 8080 for the FastAPI service
+EXPOSE 8080
+
+# Start the FastAPI service using uvicorn
+CMD ["uvicorn", "main:app", "--reload", "--host", "0.0.0.0", "--port", "8080"]
